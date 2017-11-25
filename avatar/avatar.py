@@ -13,14 +13,14 @@ def process_avatar(url):
 
 
 class Avatar:
-    """Get user's avatar URL."""
+    """Get user's avatar."""
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(pass_context=True)
     async def avatar(self, ctx, *, user: discord.Member=None):
-        """Returns user avatar URL."""
+        """Returns user avatar."""
         author = ctx.message.author
 
         if not user:
@@ -28,7 +28,11 @@ class Avatar:
 
         u = user.avatar_url
         url = process_avatar(u)
-        await self.bot.say("{}'s Avatar URL : {}".format(user.name, url))
+        em = discord.Embed()
+        em.set_author(name=user.name, url=url, icon_url=url)
+        em.set_image(url=url)
+        em.set_footer(text="Do you wish more?")
+        await self.bot.say(embed=em)
 
 
 def setup(bot):
